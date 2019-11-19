@@ -1,0 +1,2 @@
+mockserver_docker_host_port: 2376
+mockserver_docker_secure_host: false

@@ -1,0 +1,24 @@
+{
+    "variables": {
+        "project_root": "../.."
+    },
+    "builders": [{
+        "type": "digitalocean",
+        "image": "ubuntu-18-04-x64",
+        "region": "nyc1",
+        "size": "s-1vcpu-1gb",
+        "droplet_name": "mock-server-api-dev",
+        "ssh_username": "root"
+    }],
+    "provisioners": [{
+        "type": "ansible",
+        "playbook_file": "{{ user `project_root` }}/config-management/dev.yml",
+        "extra_arguments": [
+            "--tags",
+            "packer"
+        ],
+        "groups": [
+            "dev"
+        ]
+    }]
+}

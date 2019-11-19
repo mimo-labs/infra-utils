@@ -1,0 +1,25 @@
+---
+- name: Populate services data
+  service_facts:
+
+- name: Disable Apache if it's up
+  service:
+    name: apache2
+    state: stopped
+    enabled: no
+  when: "'apache2' in services"
+
+- name: Ensure nginx is installed
+  apt:
+    name: nginx
+    state: present
+    autoremove: yes
+    update_cache: yes
+
+- name: Copy hosts configuration
+  template:
+    src: "{{ item.key }}.j2"
+    dest: "/etc/nginx/sites-enabled/{{ item.key }}"
+  loop: "{{ mockserver_nginx_hosts| default({}) | dict2items }}"
+  when: mockserver_nginx_hosts is defined
+  notify: Reload nginx

@@ -1,0 +1,25 @@
+- name: Prepare TLS certificates for secure connection
+  include_role:
+    name: OpenSSL
+  vars:
+    mockserver_openssl_directory: /etc/docker
+    mockserver_openssl_common_name: staging.mockserver.co
+
+- name: Ensure Docker is configured for remote and local usage
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    backup: yes
+
+- name: Ensure directory for patched systemd unit exists
+  file:
+    path: /etc/systemd/system/docker.service.d/
+    state: directory
+
+- name: Ensure patched systemd unit for Docker is installed
+  copy:
+    src: docker.conf
+    dest: /etc/systemd/system/docker.service.d/docker.conf
+    backup: yes
+  notify: Reload docker service
+

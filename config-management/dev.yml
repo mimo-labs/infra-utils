@@ -1,0 +1,10 @@
+---
+- hosts: dev
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - role: Nginx
+      tags: [ never, packer, nginx ]
+    - role: Docker
+      tags: [ never, packer, docker ]

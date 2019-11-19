@@ -1,0 +1,26 @@
+- name: Load variables
+  include_vars: "{{ env|default('prod') }}.yml"
+
+- name: Ensure docker apt_key is applied
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Ensure docker's apt repo is applied
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+
+- name: Ensures Docker-CE is installed
+  apt:
+    name: docker-ce
+    state: present
+
+- include_tasks: ./secure.yml
+  when: mockserver_docker_secure_host is defined and mockserver_docker_secure_host
+
+- name: Ensure user is able to run docker
+  user:
+    name: "{{ system_user }}"
+    groups: docker
+    append: yes
