@@ -1,0 +1,5 @@
+dependencies:
+  - role: Pip
+    vars:
+      mockserver_pip_extra_packages:
+        - docker

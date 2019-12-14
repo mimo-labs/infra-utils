@@ -1,0 +1,16 @@
+---
+- name: Ensure pip dependencies are installed
+  apt:
+    name: python-setuptools
+    state: present
+
+- name: Ensure pip is installed
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Ensure pip packages are installed
+  pip:
+    name: "{{ mockserver_pip_extra_packages }}"
+    state: present
+  when: mockserver_pip_extra_packages is defined

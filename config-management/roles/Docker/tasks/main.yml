@@ -24,3 +24,18 @@
     name: "{{ system_user }}"
     groups: docker
     append: yes
+
+- name: Ensure images are pulled
+  docker_image:
+    name: "{{ item.value.image }}:{{ item.value.tag }}"
+    source: pull
+  loop: "{{ mockserver_docker_images | default({}) | dict2items }}"
+
+- name: Ensure images run on startup
+  docker_container:
+    name: "{{ item.value.name }}"
+    image: "{{ item.value.image }}:{{ item.value.tag }}"
+    state: present
+    restart_policy: always
+    ports: "{{ item.value.ports }}"
+  loop: "{{ mockserver_docker_images | default({}) | dict2items }}"

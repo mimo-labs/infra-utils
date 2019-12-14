@@ -8,3 +8,11 @@
       tags: [ never, packer, nginx ]
     - role: Docker
       tags: [ never, packer, docker ]
+      vars:
+        mockserver_docker_images:
+            mockserver:
+                name: mimo-api
+                image: ldelelis/mockserver
+                tag: develop
+                ports:
+                  - "8000:8000"
