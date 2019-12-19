@@ -1,5 +1,5 @@
 data "digitalocean_image" "latest_snapshot_dev" {
-    name = "packer-1576346634"
+    name = "packer-1576793043"
 }
 
 resource "digitalocean_droplet" "dev" {
