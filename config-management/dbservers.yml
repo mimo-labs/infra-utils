@@ -1,0 +1,10 @@
+---
+- hosts: dbservers
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - role: PostgreSQL
+      tags: [ never, packer, postgresql ]
+    - role: Resolvconf
+      tags: [ never, packer, resolvconf ]

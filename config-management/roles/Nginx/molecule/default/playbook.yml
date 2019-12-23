@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: Nginx
+      vars:
+        mockserver_nginx_hosts:
+          mimo:

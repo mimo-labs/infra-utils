@@ -17,8 +17,8 @@
     update_cache: yes
 
 - name: Copy hosts configuration
-  template:
-    src: "{{ item.key }}.j2"
+  copy:
+    src: "{{ item.key }}.conf"
     dest: "/etc/nginx/sites-enabled/{{ item.key }}"
   loop: "{{ mockserver_nginx_hosts| default({}) | dict2items }}"
   when: mockserver_nginx_hosts is defined

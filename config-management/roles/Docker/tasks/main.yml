@@ -38,5 +38,6 @@
     state: present
     restart_policy: always
     ports: "{{ item.value.ports }}"
-    command: " {{ item.value.command }}"
+    command: "{{ item.value.command }}"
+    env: "{{ item.value.env }}"
   loop: "{{ mockserver_docker_images | default({}) | dict2items }}"

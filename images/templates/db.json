@@ -1,0 +1,25 @@
+{
+    "variables": {
+        "project_root": "../.."
+    },
+    "builders": [{
+        "type": "digitalocean",
+        "image": "ubuntu-18-04-x64",
+        "region": "nyc1",
+        "size": "s-1vcpu-1gb",
+        "droplet_name": "tmp-build-db-image",
+        "ssh_username": "root",
+        "snapshot_name": "database-{{ timestamp }}"
+    }],
+    "provisioners": [{
+        "type": "ansible",
+        "playbook_file": "{{ user `project_root` }}/config-management/site.yml",
+        "extra_arguments": [
+            "--tags",
+            "packer"
+        ],
+        "groups": [
+            "dbservers"
+        ]
+    }]
+}

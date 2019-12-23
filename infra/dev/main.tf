@@ -1,10 +1,131 @@
-data "digitalocean_image" "latest_snapshot_dev" {
-    name = "packer-1576793043"
+terraform {
+  required_version = ">=0.12.0"
 }
 
-resource "digitalocean_droplet" "dev" {
-    image = data.digitalocean_image.latest_snapshot_dev.id
-    name = "mockserver-api-dev"
-    region = "nyc1"
-    size = "s-1vcpu-1gb"
+variable "digitalocean_ssh_name" {
+  description = "SSH Key to attach to the instance."
+}
+
+data "digitalocean_image" "latest_snapshot_dev" {
+  name = "packer-1577074715"
+}
+
+data "digitalocean_image" "latest_database_dev" {
+  name = "database-1577063166"
+}
+
+resource "digitalocean_project" "mimo_dev" {
+  name        = "mimo_dev"
+  environment = "Development"
+  resources = [
+    digitalocean_volume.dev_database.urn,
+    digitalocean_domain.mimo_internal.urn,
+    digitalocean_droplet.mimo_api_dev.urn,
+    digitalocean_droplet.mimo_database_dev.urn
+  ]
+}
+
+resource "digitalocean_domain" "mimo_internal" {
+  name = "internal.mimo"
+}
+
+resource "digitalocean_record" "dev_database" {
+  domain = digitalocean_domain.mimo_internal.name
+  type   = "A"
+  name   = "db"
+  value  = digitalocean_droplet.mimo_database_dev.ipv4_address_private
+}
+
+resource "digitalocean_record" "dev_api" {
+  domain = digitalocean_domain.mimo_internal.name
+  type   = "A"
+  name   = "api"
+  value  = digitalocean_droplet.mimo_api_dev.ipv4_address_private
+}
+
+resource "digitalocean_volume" "dev_database" {
+  region = "nyc1"
+  name   = "dev-db"
+  size   = 1
+}
+
+resource "digitalocean_firewall" "dev_database" {
+  name = "only-5432"
+  droplet_ids = [
+    digitalocean_droplet.mimo_database_dev.id
+  ]
+  inbound_rule {
+    protocol   = "tcp"
+    port_range = "5432"
+    source_droplet_ids = [
+      digitalocean_droplet.mimo_api_dev.id
+    ]
+  }
+  inbound_rule {
+    protocol         = "tcp"
+    port_range       = "53"
+    source_addresses = ["0.0.0.0/0", "::/0"]
+  }
+  outbound_rule {
+    protocol   = "tcp"
+    port_range = "5432"
+    destination_droplet_ids = [
+      digitalocean_droplet.mimo_api_dev.id
+    ]
+  }
+  outbound_rule {
+    protocol              = "tcp"
+    port_range            = "53"
+    destination_addresses = ["0.0.0.0/0", "::/0"]
+  }
+}
+
+resource "digitalocean_droplet" "mimo_api_dev" {
+  image  = data.digitalocean_image.latest_snapshot_dev.id
+  name   = "mimo-api-dev"
+  region = "nyc1"
+  size   = "s-1vcpu-1gb"
+  ssh_keys = [
+    var.digitalocean_ssh_name
+  ]
+  private_networking = true
+
+  connection {
+    type        = "ssh"
+    private_key = file("/home/blanc/.ssh/id_ed25519")
+    host        = self.ipv4_address
+  }
+
+  provisioner "remote-exec" {
+    when = create
+    inline = [
+      "certbot --nginx -d dev.mimo.ldelelis.dev --non-interactive --agree-tos --register-unsafely-without-email --redirect",
+      "systemctl reload nginx"
+    ]
+  }
+}
+
+resource "digitalocean_droplet" "mimo_database_dev" {
+  image  = data.digitalocean_image.latest_database_dev.id
+  name   = "mimo-database-dev"
+  region = "nyc1"
+  size   = "s-1vcpu-1gb"
+  ssh_keys = [
+    var.digitalocean_ssh_name
+  ]
+  volume_ids = [
+    digitalocean_volume.dev_database.id
+  ]
+  private_networking = true
+
+  provisioner "remote-exec" {
+    when = create
+    inline = [
+      "mount /dev/sda /mnt",
+      "pg_ctlcluster 10 main stop",
+      "rm /var/lib/postgresql/10/main -rf",
+      "ln -s /mnt /var/lib/postgresql/10/main",
+      "pg_ctlcluster 10 main start"
+    ]
+  }
 }

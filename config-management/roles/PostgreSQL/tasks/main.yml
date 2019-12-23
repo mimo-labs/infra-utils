@@ -1,0 +1,22 @@
+---
+- name: Ensure postgresql is installed
+  apt:
+    name: "postgresql-{{ mockserver_postgresql_version }}"
+    state: present
+
+- name: Ensure postgresql service is started and enabled
+  service:
+    name: postgresql
+    enabled: yes
+    state: started
+
+- name: Ensure host databases exist
+  postgresql_db:
+    name: "{{ item }}"
+    state: present
+  when: mockserver_postgresql_databases is defined
+  with_items: "{{ mockserver_postgresql_databases }}"
+  become: yes
+  become_user: postgres
+  vars:
+    ansible_python_interpreter: /usr/bin/python3

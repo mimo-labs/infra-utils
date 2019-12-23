@@ -7,18 +7,18 @@
         "image": "ubuntu-18-04-x64",
         "region": "nyc1",
         "size": "s-1vcpu-1gb",
-        "droplet_name": "mock-server-api-dev",
+        "droplet_name": "tmp-build-api-image",
         "ssh_username": "root"
     }],
     "provisioners": [{
         "type": "ansible",
-        "playbook_file": "{{ user `project_root` }}/config-management/dev.yml",
+        "playbook_file": "{{ user `project_root` }}/config-management/site.yml",
         "extra_arguments": [
             "--tags",
             "packer"
         ],
         "groups": [
-            "dev"
+            "apiservers"
         ]
     }]
 }

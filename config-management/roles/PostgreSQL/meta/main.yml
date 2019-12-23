@@ -1,0 +1,8 @@
+dependencies:
+  - role: Pip
+    when: mockserver_postgresql_databases is defined
+    vars:
+      mockserver_pip_build_dependencies:
+        - libpq-dev
+      mockserver_pip_extra_packages:
+        - psycopg2
