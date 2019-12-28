@@ -7,7 +7,7 @@ variable "digitalocean_ssh_name" {
 }
 
 data "digitalocean_image" "latest_snapshot_dev" {
-  name = "packer-1577074715"
+  name = "apiserver-1577405882"
 }
 
 data "digitalocean_image" "latest_database_dev" {
@@ -21,7 +21,8 @@ resource "digitalocean_project" "mimo_dev" {
     digitalocean_volume.dev_database.urn,
     digitalocean_domain.mimo_internal.urn,
     digitalocean_droplet.mimo_api_dev.urn,
-    digitalocean_droplet.mimo_database_dev.urn
+    digitalocean_droplet.mimo_database_dev.urn,
+    digitalocean_floating_ip.mimo_api.urn
   ]
 }
 
@@ -41,6 +42,18 @@ resource "digitalocean_record" "dev_api" {
   type   = "A"
   name   = "api"
   value  = digitalocean_droplet.mimo_api_dev.ipv4_address_private
+}
+
+resource "digitalocean_domain" "ldelelis_dev" {
+  name = "ldelelis.dev"
+}
+
+resource "digitalocean_record" "dev_access_api" {
+  domain = digitalocean_domain.ldelelis_dev.name
+  type = "A"
+  name = "dev.mimo"
+  value = digitalocean_floating_ip.mimo_api.ip_address
+  ttl = 60
 }
 
 resource "digitalocean_volume" "dev_database" {
@@ -78,6 +91,11 @@ resource "digitalocean_firewall" "dev_database" {
     port_range            = "53"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
+}
+
+resource "digitalocean_floating_ip" "mimo_api" {
+  droplet_id = digitalocean_droplet.mimo_api_dev.id
+  region = digitalocean_droplet.mimo_api_dev.region
 }
 
 resource "digitalocean_droplet" "mimo_api_dev" {

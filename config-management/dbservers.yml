@@ -6,5 +6,11 @@
   roles:
     - role: PostgreSQL
       tags: [ never, packer, postgresql ]
-    - role: Resolvconf
-      tags: [ never, packer, resolvconf ]
+      vars:
+        mockserver_postgresql_is_public: true
+        postgresql_hba_entries:
+          - type: host
+            database: all
+            user: all
+            address: "10.136.0.0/16"
+            auth_method: md5

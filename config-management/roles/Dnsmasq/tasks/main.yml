@@ -1,0 +1,16 @@
+---
+- name: Ensures dnsmasq is installed
+  apt:
+    name: dnsmasq
+    state: present
+
+- name: Ensures forwarder configuration is installed
+  template:
+    src: dnsmasq.conf.j2
+    dest: /etc/dnsmasq.conf
+
+- name: Ensures dnsmasq service is running and enabled
+  service:
+    name: dnsmasq
+    state: started
+    enabled: yes

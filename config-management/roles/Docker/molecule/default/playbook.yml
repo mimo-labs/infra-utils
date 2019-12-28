@@ -1,18 +1,9 @@
 ---
-- hosts: apiservers
+- name: Converge
+  hosts: all
   become: yes
-  gather_facts: yes
-
   roles:
-    - role: Dnsmasq
-      tags: [ never, packer, dnsmasq ]
-    - role: Nginx
-      tags: [ never, packer, nginx ]
-      vars:
-        mockserver_nginx_hosts:
-          mimo:
     - role: Docker
-      tags: [ never, packer, docker ]
       vars:
         mockserver_docker_namespace: mimo
         mockserver_docker_files_to_copy:
@@ -55,14 +46,12 @@
             networks:
               - name: mimo
             volumes:
-              - "/tmp/mimo_statics.conf:/etc/nginx/conf.d/mimo_statics.conf"
+              - "/tmp/mimo_statics.conf:/etc/nginx/conf.d/default.conf"
             mounts:
               - source: mimo
                 target: /static
             labels:
               traefik.frontend.passHostHeaders: "true"
               traefik.http.routers.nginx.rule: Host(`dev.mimo.ldelelis.dev`) && PathPrefix(`/static`)
-            command: "nginx -g daemon off;"
+            command: "nginx -g 'daemon off;'"
         ansible_python_interpreter: /usr/bin/python3
-    - role: Letsencrypt
-      tags: [ never, packer, letsencrypt ]

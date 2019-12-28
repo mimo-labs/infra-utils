@@ -8,7 +8,8 @@
         "region": "nyc1",
         "size": "s-1vcpu-1gb",
         "droplet_name": "tmp-build-api-image",
-        "ssh_username": "root"
+        "ssh_username": "root",
+        "snapshot_name": "apiserver-{{ timestamp }}"
     }],
     "provisioners": [{
         "type": "ansible",

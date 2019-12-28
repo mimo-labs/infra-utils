@@ -4,5 +4,10 @@
   roles:
     - role: PostgreSQL
       vars:
-        mockserver_postgresql_databases:
-          - foobarbaz
+        mockserver_postgresql_is_public: true
+        postgresql_hba_entries:
+          - type: host
+            database: all
+            user: all
+            address: "10.136.0.0/16"
+            auth_method: md5

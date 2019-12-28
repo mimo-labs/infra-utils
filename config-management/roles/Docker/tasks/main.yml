@@ -25,6 +25,28 @@
     groups: docker
     append: yes
 
+- name: Ensure requested files exist on host
+  copy:
+    src: "{{ item }}"
+    dest: "/tmp/{{ item }}"
+  when: mockserver_docker_files_to_copy is defined
+  loop: "{{ mockserver_docker_files_to_copy }}"
+
+- name: Ensure user-defined networks exist
+  docker_network:
+    name: "{{ item }}"
+    state: present
+  when: mockserver_docker_networks is defined
+  loop: "{{ mockserver_docker_networks }}"
+
+- name: Ensure user-defined volumes exist
+  docker_volume:
+    name: "{{ item }}"
+    recreate: never
+    state: present
+  when: mockserver_docker_volumes is defined
+  loop: "{{ mockserver_docker_volumes }}"
+
 - name: Ensure images are pulled
   docker_image:
     name: "{{ item.value.image }}:{{ item.value.tag }}"
@@ -33,11 +55,15 @@
 
 - name: Ensure images run on startup
   docker_container:
-    name: "{{ item.value.name }}"
+    name: "{{ mockserver_docker_namespace }}_{{ item.value.name }}"
     image: "{{ item.value.image }}:{{ item.value.tag }}"
-    state: present
+    state: started
     restart_policy: always
-    ports: "{{ item.value.ports }}"
+    ports: "{{ item.value.ports | default([]) }}"
     command: "{{ item.value.command }}"
-    env: "{{ item.value.env }}"
+    env: "{{ item.value.env | default({}) }}"
+    networks: "{{ item.value.networks | default([]) }}"
+    labels: "{{ item.value.labels | default({}) }}"
+    volumes: "{{ item.value.volumes | default([]) }}"
+    mounts: "{{ item.value.mounts | default([]) }}"
   loop: "{{ mockserver_docker_images | default({}) | dict2items }}"

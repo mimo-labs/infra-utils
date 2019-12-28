@@ -16,7 +16,22 @@
     state: present
   when: mockserver_postgresql_databases is defined
   with_items: "{{ mockserver_postgresql_databases }}"
-  become: yes
   become_user: postgres
   vars:
     ansible_python_interpreter: /usr/bin/python3
+
+- name: Ensures postgresql daemon is exposed
+  lineinfile:
+    dest: /etc/postgresql/10/main/postgresql.conf
+    regexp: "^#?listen_address.+$"
+    line: "listen_addresses = '*'"
+    state: present
+  notify: Restart postgresql
+  when: mockserver_postgresql_is_public
+
+- name: Ensures postgresql allows remote access to CIDR range
+  template:
+    src: pg_hba.conf.j2
+    dest: /etc/postgresql/10/main/pg_hba.conf
+  notify: Restart postgresql
+  when: postgresql_hba_entries | length > 0
