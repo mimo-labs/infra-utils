@@ -2,12 +2,8 @@ terraform {
   required_version = ">=0.12.0"
 }
 
-variable "digitalocean_ssh_name" {
-  description = "SSH Key to attach to the instance."
-}
-
 data "digitalocean_image" "latest_snapshot_dev" {
-  name = "apiserver-1577405882"
+  name = "apiserver-1578263092"
 }
 
 data "digitalocean_image" "latest_database_dev" {
@@ -50,10 +46,10 @@ resource "digitalocean_domain" "ldelelis_dev" {
 
 resource "digitalocean_record" "dev_access_api" {
   domain = digitalocean_domain.ldelelis_dev.name
-  type = "A"
-  name = "dev.mimo"
-  value = digitalocean_floating_ip.mimo_api.ip_address
-  ttl = 60
+  type   = "A"
+  name   = "dev.mimo"
+  value  = digitalocean_floating_ip.mimo_api.ip_address
+  ttl    = 60
 }
 
 resource "digitalocean_volume" "dev_database" {
@@ -95,7 +91,7 @@ resource "digitalocean_firewall" "dev_database" {
 
 resource "digitalocean_floating_ip" "mimo_api" {
   droplet_id = digitalocean_droplet.mimo_api_dev.id
-  region = digitalocean_droplet.mimo_api_dev.region
+  region     = digitalocean_droplet.mimo_api_dev.region
 }
 
 resource "digitalocean_droplet" "mimo_api_dev" {
@@ -115,12 +111,12 @@ resource "digitalocean_droplet" "mimo_api_dev" {
   }
 
   provisioner "local-exec" {
-    when = destroy
-    command = "scp -r root@${self.ipv4_address}:/etc/letsencrypt ."
+    when    = destroy
+    command = "rsync -ralvz -e 'ssh -o ConnectionAttempts=10 -o StrictHostKeyChecking=no' root@${self.ipv4_address}:/etc/letsencrypt ."
   }
 
   provisioner "local-exec" {
-    command = "scp -r letsencrypt root@${self.ipv4_address}:/etc/."
+    command = "rsync -ralvz -e 'ssh -o ConnectionAttempts=10 -o StrictHostKeyChecking=no' ./letsencrypt root@${self.ipv4_address}:/etc/."
   }
 
   provisioner "remote-exec" {

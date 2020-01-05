@@ -28,7 +28,7 @@
 - name: Ensure requested files exist on host
   copy:
     src: "{{ item }}"
-    dest: "/tmp/{{ item }}"
+    dest: "/usr/{{ item }}"
   when: mockserver_docker_files_to_copy is defined
   loop: "{{ mockserver_docker_files_to_copy }}"
 

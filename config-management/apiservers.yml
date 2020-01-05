@@ -55,7 +55,7 @@
             networks:
               - name: mimo
             volumes:
-              - "/tmp/mimo_statics.conf:/etc/nginx/conf.d/mimo_statics.conf"
+              - "/usr/mimo_statics.conf:/etc/nginx/conf.d/default.conf"
             mounts:
               - source: mimo
                 target: /static
