@@ -62,7 +62,7 @@
             labels:
               traefik.frontend.passHostHeaders: "true"
               traefik.http.routers.nginx.rule: Host(`dev.mimo.ldelelis.dev`) && PathPrefix(`/static`)
-            command: "nginx -g daemon off;"
+            command: "nginx -g 'daemon off;'"
         ansible_python_interpreter: /usr/bin/python3
     - role: Letsencrypt
       tags: [ never, packer, letsencrypt ]
