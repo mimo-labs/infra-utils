@@ -114,10 +114,17 @@ resource "digitalocean_droplet" "mimo_api_dev" {
     host        = self.ipv4_address
   }
 
+  provisioner "local-exec" {
+    when = destroy
+    command = "scp -r root@${self.ipv4_address}:/etc/letsencrypt ."
+  }
+
+  provisioner "local-exec" {
+    command = "scp -r letsencrypt root@${self.ipv4_address}:/etc/."
+  }
+
   provisioner "remote-exec" {
-    when = create
     inline = [
-      "certbot --nginx -d dev.mimo.ldelelis.dev --non-interactive --agree-tos --register-unsafely-without-email --redirect",
       "systemctl reload nginx"
     ]
   }
