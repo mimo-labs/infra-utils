@@ -12,6 +12,23 @@
         "snapshot_name": "apiserver-{{ timestamp }}"
     }],
     "provisioners": [{
+        "type": "shell-local",
+        "command": "tar cf letsencrypt.tar ../letsencrypt"
+    },
+    {
+        "type": "file",
+        "source": "letsencrypt.tar",
+        "destination": "/etc/letsencrypt.tar",
+        "direction": "upload"
+    },
+    {
+        "type": "shell",
+        "inline": [
+            "cd /etc && tar xf letsencrypt.tar",
+            "rm /etc/letsencrypt.tar"
+        ]
+    },
+    {
         "type": "ansible",
         "playbook_file": "{{ user `project_root` }}/config-management/site.yml",
         "extra_arguments": [

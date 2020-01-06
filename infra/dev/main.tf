@@ -3,7 +3,7 @@ terraform {
 }
 
 data "digitalocean_image" "latest_snapshot_dev" {
-  name = "apiserver-1578263092"
+  name = "apiserver-1578270436"
 }
 
 data "digitalocean_image" "latest_database_dev" {
@@ -112,17 +112,7 @@ resource "digitalocean_droplet" "mimo_api_dev" {
 
   provisioner "local-exec" {
     when    = destroy
-    command = "rsync -ralvz -e 'ssh -o ConnectionAttempts=10 -o StrictHostKeyChecking=no' root@${self.ipv4_address}:/etc/letsencrypt ."
-  }
-
-  provisioner "local-exec" {
-    command = "rsync -ralvz -e 'ssh -o ConnectionAttempts=10 -o StrictHostKeyChecking=no' ./letsencrypt root@${self.ipv4_address}:/etc/."
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "systemctl reload nginx"
-    ]
+    command = "rsync -ralvz -e 'ssh -o ConnectionAttempts=10 -o StrictHostKeyChecking=no' root@${self.ipv4_address}:/etc/letsencrypt ../../images/."
   }
 }
 

@@ -1,0 +1,15 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-18.04"
+
+  config.vm.define "vm1"
+
+  config.vm.provision "ansible" do |ans|
+    ans.playbook = "../../config-management/apiservers.yml"
+    ans.tags = "packer"
+    ans.groups = {
+      apiservers: ["vm1"]
+    }
+  end
+end
