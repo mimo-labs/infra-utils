@@ -1,0 +1,234 @@
+# Logfile created on 2020-01-19 04:41:06 -0300 by logger.rb/61378
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-19 04:41:06 -0300 cap development deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [131f3568] Running /usr/bin/env mkdir -p /tmp as root@dev.mimo.ldelelis.dev
+ DEBUG [131f3568] Command: /usr/bin/env mkdir -p /tmp
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-19 04:41:39 -0300 cap development deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [e01bea21] Running /usr/bin/env mkdir -p /tmp as root@dev.mimo.ldelelis.dev
+ DEBUG [e01bea21] Command: /usr/bin/env mkdir -p /tmp
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-19 04:42:03 -0300 cap development deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [e22b7c7a] Running /usr/bin/env mkdir -p /tmp as root@dev.mimo.ldelelis.dev
+ DEBUG [e22b7c7a] Command: /usr/bin/env mkdir -p /tmp
+  INFO [e22b7c7a] Finished in 2.718 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-mimo-development-blanc.sh 0.0%
+  INFO Uploading /tmp/git-ssh-mimo-development-blanc.sh 100.0%
+  INFO [ca8a0c6c] Running /usr/bin/env chmod 700 /tmp/git-ssh-mimo-development-blanc.sh as root@dev.mimo.ldelelis.dev
+ DEBUG [ca8a0c6c] Command: /usr/bin/env chmod 700 /tmp/git-ssh-mimo-development-blanc.sh
+  INFO [ca8a0c6c] Finished in 0.526 seconds with exit status 0 (successful).
+  INFO [55cd7a59] Running /usr/bin/env git ls-remote git@github.com:mimo-mocks/mocks-infrastructure.git HEAD as root@dev.mimo.ldelelis.dev
+ DEBUG [55cd7a59] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-mimo-development-blanc.sh" ; /usr/bin/env git ls-remote git@github.com:mimo-mocks/mocks-infrastructure.git HEAD )
+ DEBUG [55cd7a59] 	Warning: Permanently added 'github.com,192.30.253.112' (RSA) to the list of known hosts.
+ DEBUG [55cd7a59] 	git@github.com: Permission denied (publickey).
+ DEBUG [55cd7a59] 	fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-19 04:42:58 -0300 cap development prepare_application
+  INFO ---------------------------------------------------------------------------
+  INFO [bd30d20c] Running /usr/bin/env docker exec -it mimo_api mockserver/python manage.py migrate as root@dev.mimo.ldelelis.dev
+ DEBUG [bd30d20c] Command: /usr/bin/env docker exec -it mimo_api mockserver/python manage.py migrate
+ DEBUG [bd30d20c] 	the input device is not a TTY
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-19 04:43:37 -0300 cap development prepare_application
+  INFO ---------------------------------------------------------------------------
+  INFO [9664b7e1] Running /usr/bin/env docker exec mimo_api mockserver/python manage.py migrate as root@dev.mimo.ldelelis.dev
+ DEBUG [9664b7e1] Command: /usr/bin/env docker exec mimo_api mockserver/python manage.py migrate
+ DEBUG [9664b7e1] 	OCI runtime exec failed: exec failed: container_linux.go:346: starting container process caused "exec: \"mockserver/python\": stat mockserver/python: no such file or directory": unknown
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-19 04:44:10 -0300 cap development prepare_application
+  INFO ---------------------------------------------------------------------------
+  INFO [5c4a5fa1] Running /usr/bin/env docker exec mimo_api mockserver/manage.py migrate as root@dev.mimo.ldelelis.dev
+ DEBUG [5c4a5fa1] Command: /usr/bin/env docker exec mimo_api mockserver/manage.py migrate
+ DEBUG [5c4a5fa1] 	System check identified some issues:
+
+WARNINGS:
+?: (urls.W005) URL namespace 'v1' isn't unique. You may not be able to reverse all URLs in this namespace
+ DEBUG [5c4a5fa1] 	Operations to perform:
+ DEBUG [5c4a5fa1] 	  Apply all migrations: admin, auth, authentication, authtoken, contenttypes, mocks, sessions, tenants
+ DEBUG [5c4a5fa1] 	Running migrations:
+ DEBUG [5c4a5fa1] 	  No migrations to apply.
+  INFO [5c4a5fa1] Finished in 4.673 seconds with exit status 0 (successful).
+  INFO [7e1fdb7b] Running /usr/bin/env docker exec mimo_api mockserver/manage.py collectstatic -c --noinput as root@dev.mimo.ldelelis.dev
+ DEBUG [7e1fdb7b] Command: /usr/bin/env docker exec mimo_api mockserver/manage.py collectstatic -c --noinput
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/immutable.min.js'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/insQ.min.js'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/redoc-init.js'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/style.css'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/url-polyfill.min.js'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/swagger-ui-init.js'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/redoc/redoc.min.js'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/redoc/redoc-logo.png'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/redoc-old/redoc.min.js'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/swagger-ui-dist/oauth2-redirect.html'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/swagger-ui-dist/swagger-ui-standalone-preset.js'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/swagger-ui-dist/index.js'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/swagger-ui-dist/swagger-ui.css'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/swagger-ui-dist/favicon-32x32.png'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/swagger-ui-dist/swagger-ui-bundle.js'
+ DEBUG [7e1fdb7b] 	Deleting 'drf-yasg/swagger-ui-dist/absolute-path.js'
+ DEBUG [7e1fdb7b] 	Deleting 'django_extensions/img/indicator.gif'
+ DEBUG [7e1fdb7b] 	Deleting 'django_extensions/js/jquery.ajaxQueue.js'
+Deleting 'django_extensions/js/jquery.bgiframe.js'
+Deleting 'django_extensions/js/jquery.autocomplete.js'
+Deleting 'django_extensions/css/jquery.autocomplete.css'
+Deleting 'rest_framework/img/glyphicons-halflings-white.png'
+Deleting 'rest_framework/img/glyphicons-halflings.png'
+Deleting 'rest_framework/img/grid.png'
+Deleting 'rest_framework/js/prettify-min.js'
+Deleting 'rest_framework/js/jquery-3.3.1.min.js'
+Deleting 'rest_framework/js/ajax-form.js'
+Deleting 'rest_framework/js/bootstrap.min.js'
+Deleting 'rest_framework/js/default.js'
+Deleting 'rest_framework/js/coreapi-0.1.1.js'
+Deleting 'rest_framework/js/csrf.js'
+Deleting 'rest_framework/css/bootstrap.min.css'
+Deleting 'rest_framework/css/bootstrap-tweaks.css'
+Deleting 'rest_framework/css/font-awesome-4.0.3.css'
+Deleting 'rest_framework/css/bootstrap-theme.min.css'
+Deleting 'rest_framework/css/prettify.css'
+Deleting 'rest_framework/css/default.css'
+Deleting 'rest_framework/fonts/glyphicons-halflings-regular.woff2'
+Deleting 'rest_framework/fonts/fontawesome-webfont.woff'
+Deleting 'rest_framework/fonts/fontawesome-webfont.ttf'
+Deleting 'rest_framework/fonts/glyphicons-halflings-regular.eot'
+Deleting 'rest_framework/fonts/fontawesome-webfont.eot'
+Deleting 'rest_framework/fonts/fontawesome-webfont.svg'
+Deleting 'rest_framework/fonts/glyphicons-halflings-regular.woff'
+Deleting 'rest_framework/fonts/glyphicons-halflings-regular.ttf'
+Deleting 'rest_framework/fonts/glyphicons-halflings-regular.svg'
+Deleting 'rest_framework/docs/img/favicon.ico'
+Deleting 'rest_framework/docs/img/grid.png'
+Deleting 'rest_framework/docs/js/jquery.json-view.min.js'
+Deleting 'rest_framework/docs/js/api.js'
+Deleting 'rest_framework/docs/js/highlight.pack.js'
+Deleting 'rest_framework/docs/css/jquery.json-view.min.css'
+Deleting 'rest_framework/docs/css/base.css'
+Deleting 'rest_framework/docs/css/highlight.css'
+Deleting 'admin/img/selector-icons.svg'
+Deleting 'admin/img/search.svg'
+Deleting 'admin/img/icon-alert.svg'
+Deleting 'admin/img/tooltag-arrowright.svg'
+Deleting 'admin/img/icon-unknown-alt.svg'
+Deleting 'admin/img/icon-addlink.svg'
+Deleting 'admin/img/icon-unknown.svg'
+Deleting 'admin/img/icon-calendar.svg'
+Deleting 'admin/img/calendar-icons.svg'
+Deleting 'admin/img/icon-clock.svg'
+Deleting 'admin/img/icon-changelink.svg'
+Deleting 'admin/img/tooltag-add.svg'
+Deleting 'admin/img/icon-deletelink.svg'
+Deleting 'admin/img/inline-delete.svg'
+Deleting 'admin/img/README.txt'
+Deleting 'admin/img/icon-yes.svg'
+Deleting 'admin/img/sorting-icons.svg'
+Deleting 'admin/img/icon-viewlink.svg'
+Deleting 'admin/img/LICENSE'
+Deleting 'admin/img/icon-no.svg'
+Deleting 'admin/img/gis/move_vertex_on.svg'
+Deleting 'admin/img/gis/move_vertex_off.svg'
+Deleting 'admin/js/jquery.init.js'
+Deleting 'admin/js/inlines.js'
+Deleting 'admin/js/SelectFilter2.js'
+Deleting 'admin/js/popup_response.js'
+Deleting 'admin/js/cancel.js'
+Deleting 'admin/js/prepopulate.js'
+Deleting 'admin/js/collapse.js'
+Deleting 'admin/js/inlines.min.js'
+Deleting 'admin/js/SelectBox.js'
+Deleting 'admin/js/prepopulate.min.js'
+Deleting 'admin/js/core.js'
+Deleting 'admin/js/calendar.js'
+Deleting 'admin/js/collapse.min.js'
+Deleting 'admin/js/actions.js'
+Deleting 'admin/js/prepopulate_init.js'
+Deleting 'admin/js/timeparse.js'
+Deleting 'admin/js/urlify.js'
+Deleting 'admin/js/change_form.js'
+Deleting 'admin/js/actions.min.js'
+Deleting 'admin/js/autocomplete.js'
+Deleting 'admin/js/vendor/select2/select2.full.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/select2/LICENSE.md'
+Deleting 'admin/js/vendor/select2/select2.full.min.js'
+Deleting 'admin/js/vendor/select2/i18n/bg.js'
+Deleting 'admin/js/vendor/select2/i18n/nl.js'
+Deleting 'admin/js/vendor/select2/i18n/en.js'
+Deleting 'admin/js/vendor/select2/i18n/it.js'
+Deleting 'admin/js/vendor/select2/i18n/ko.js'
+Deleting 'admin/js/vendor/select2/i18n/km.js'
+Deleting 'admin/js/vendor/select2/i18n/ja.js'
+Deleting 'admin/js/vendor/select2/i18n/et.js'
+Deleting 'admin/js/vendor/select2/i18n/hr.js'
+Deleting 'admin/js/vendor/select2/i18n/zh-TW.js'
+Deleting 'admin/js/vendor/select2/i18n/pt-BR.js'
+Deleting 'admin/js/vendor/select2/i18n/ru.js'
+Deleting 'admin/js/vendor/select2/i18n/sv.js'
+Deleting 'admin/js/vendor/select2/i18n/pt.js'
+Deleting 'admin/js/vendor/select2/i18n/lt.js'
+Deleting 'admin/js/vendor/select2/i18n/az.js'
+Deleting 'admin/js/vendor/select2/i18n/fr.js'
+Deleting 'admin/js/vendor/select2/i18n/ro.js'
+Deleting 'admin/js/vendor/select2/i18n/id.js'
+Deleting 'admin/js/vendor/select2/i18n/sr.js'
+Deleting 'admin/js/vendor/select2/i18n/zh-CN.js'
+Deleting 'admin/js/vendor/select2/i18n/is.js'
+Deleting 'admin/js/vendor/select2/i18n/sk.js'
+Deleting 'admin/js/vendor/select2/i18n/hu.js'
+Deleting 'admin/js/vendor/select2/i18n/uk.js'
+Deleting 'admin/js/vendor/select2/i18n/vi.js'
+Deleting 'admin/js/vendor/select2/i18n/fi.js'
+Deleting 'admin/js/vendor/select2/i18n/ar.js'
+Deleting 'admin/js/vendor/select2/i18n/nb.js'
+Deleting 'admin/js/vendor/select2/i18n/ca.js'
+Deleting 'admin/js/vendor/select2/i18n/de.js'
+Deleting 'admin/js/vendor/select2/i18n/th.js'
+Deleting 'admin/js/vendor/select2/i18n/he.js'
+Deleting 'admin/js/vendor/select2/i18n/lv.js'
+Deleting 'admin/js/vendor/select2/i18n/hi.js'
+Deleting 'admin/js/vendor/select2/i18n/mk.js'
+Deleting 'admin/js/vendor/select2/i18n/pl.js'
+Deleting 'admin/js/vendor/select2/i18n/el.js'
+Deleting 'admin/js/vendor/select2/i18n/eu.js'
+Deleting 'admin/js/vendor/select2/i18n/cs.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/select2/i18n/sr-Cyrl.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/select2/i18n/tr.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/select2/i18n/gl.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/select2/i18n/da.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/select2/i18n/ms.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/select2/i18n/fa.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/select2/i18n/es.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/jquery/jquery.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/jquery/LICENSE.txt'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/jquery/jquery.min.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/xregexp/LICENSE.txt'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/xregexp/xregexp.min.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/vendor/xregexp/xregexp.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/admin/RelatedObjectLookups.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/js/admin/DateTimeShortcuts.js'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/fonts.css'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/base.css'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/autocomplete.css'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/forms.css'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/login.css'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/changelists.css'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/responsive.css'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/responsive_rtl.css'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/rtl.css'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/widgets.css'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/dashboard.css'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/vendor/select2/LICENSE-SELECT2.md'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/vendor/select2/select2.css'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/css/vendor/select2/select2.min.css'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/fonts/LICENSE.txt'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/fonts/Roboto-Light-webfont.woff'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/fonts/Roboto-Bold-webfont.woff'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/fonts/README.txt'
+ DEBUG [7e1fdb7b] 	Deleting 'admin/fonts/Roboto-Regular-webfont.woff'
+ DEBUG [7e1fdb7b] 	
+173 static files copied to '/usr/src/app/mockserver/static'.
+  INFO [7e1fdb7b] Finished in 1.699 seconds with exit status 0 (successful).
