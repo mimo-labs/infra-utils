@@ -60,7 +60,7 @@
     state: started
     restart_policy: always
     ports: "{{ item.value.ports | default([]) }}"
-    command: "{{ item.value.command }}"
+    command: "{{ item.value.command | default(omit) }}"
     env: "{{ item.value.env | default({}) }}"
     networks: "{{ item.value.networks | default([]) }}"
     labels: "{{ item.value.labels | default({}) }}"

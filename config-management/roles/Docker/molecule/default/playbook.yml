@@ -28,6 +28,21 @@
             env:
               DATABASE_URL: "{{ lookup('env', 'MIMO_DATABASE_URL')}}"
             command: "gunicorn -w 4 --bind 0.0.0.0:8000 --log-level error --chdir ./mockserver mockserver.wsgi"
+          celery:
+            name: tasks
+            image: ldelelis/mockserver
+            tag: develop
+            networks:
+              - name: mimo
+            env:
+              CELERY_BROKER_URL: "{{ lookup('env', 'MIMO_REDIS_URL') }}"
+            command: "celery worker -A mockserver --workdir mockserver -l info"
+          redis:
+            name: cache
+            image: redis
+            tag: 5
+            networks:
+              - name: mimo
           traefik:
             name: webserver
             image: traefik
@@ -46,7 +61,7 @@
             networks:
               - name: mimo
             volumes:
-              - "/tmp/mimo_statics.conf:/etc/nginx/conf.d/default.conf"
+              - "/usr/mimo_statics.conf:/etc/nginx/conf.d/default.conf"
             mounts:
               - source: mimo
                 target: /static

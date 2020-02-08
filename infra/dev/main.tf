@@ -3,7 +3,7 @@ terraform {
 }
 
 data "digitalocean_image" "latest_snapshot_dev" {
-  name = "apiserver-1579417280"
+  name = "apiserver-1581191223"
 }
 
 data "digitalocean_image" "latest_database_dev" {
