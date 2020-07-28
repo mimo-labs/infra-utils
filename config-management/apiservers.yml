@@ -22,8 +22,8 @@
         mockserver_docker_volumes:
           - mimo
         mockserver_docker_images:
-          mockserver:
-            name: api
+          mockserver_admin:
+            name: admin_api
             image: ldelelis/mockserver
             tag: develop
             networks:
@@ -34,10 +34,27 @@
             labels:
               traefik.enable: "true"
               traefik.frontend.passHostHeaders: "true"
-              traefik.http.services.mockserver.loadbalancer.server.port: "8000"
-              traefik.http.routers.mockserver.rule: Host(`dev.mimo.ldelelis.dev`)
+              traefik.http.services.mockserver_admin.loadbalancer.server.port: "8000"
+              traefik.http.routers.mockserver_admin.rule: Host(`dev.mimo.ldelelis.dev`)
             env:
               DATABASE_URL: "{{ lookup('env', 'MIMO_DATABASE_URL')}}"
+              IS_ADMIN_API: "true"
+            command: "gunicorn -w 4 --bind 0.0.0.0:8000 --log-level error --chdir ./mockserver mockserver.wsgi"
+          mockserver_mocks:
+            name: fetch_api
+            image: ldelelis/mockserver
+            tag: develop
+            networks:
+              - name: mimo
+            labels:
+              traefik.enable: "true"
+              traefik.frontend.passHostHeaders: "true"
+              traefik.http.services.mockserver_mocks.loadbalancer.server.port: "8000"
+              traefik.http.routers.mockserver_mocks.rule: HostRegexp(`{org:[a-zA-Z0-9]+}.{proj:[a-zA-Z]+}.dev.mimo.ldelelis.dev`)
+
+            env:
+              DATABASE_URL: "{{ lookup('env', 'MIMO_DATABASE_URL')}}"
+              IS_ADMIN_API: "true"
             command: "gunicorn -w 4 --bind 0.0.0.0:8000 --log-level error --chdir ./mockserver mockserver.wsgi"
           celery:
             name: tasks

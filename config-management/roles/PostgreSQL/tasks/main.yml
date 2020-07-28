@@ -3,6 +3,7 @@
   apt:
     name: "postgresql-{{ mockserver_postgresql_version }}"
     state: present
+    update_cache: yes
 
 - name: Ensure postgresql service is started and enabled
   service:

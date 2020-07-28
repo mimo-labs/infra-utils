@@ -5,7 +5,7 @@
     "builders": [{
         "type": "digitalocean",
         "image": "ubuntu-18-04-x64",
-        "region": "nyc1",
+        "region": "nyc3",
         "size": "s-1vcpu-1gb",
         "droplet_name": "tmp-build-api-image",
         "ssh_username": "root",
@@ -33,7 +33,7 @@
         "playbook_file": "{{ user `project_root` }}/config-management/site.yml",
         "extra_arguments": [
             "--tags",
-            "packer"
+            "dnsmasq,nginx,letsencrypt"
         ],
         "groups": [
             "apiservers"

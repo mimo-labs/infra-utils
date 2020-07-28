@@ -1,3 +1,5 @@
 .envrc
 *.pyc
 __pycache__/
+infra/
+modules/
