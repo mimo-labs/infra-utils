@@ -10,7 +10,7 @@
       tags: [ never, packer, nginx ]
       vars:
         mockserver_nginx_hosts:
-          mimo:
+          mime-rocks:
     - role: Docker
       tags: [ never, packer, docker ]
       vars:
@@ -35,7 +35,7 @@
               traefik.enable: "true"
               traefik.frontend.passHostHeaders: "true"
               traefik.http.services.mockserver_admin.loadbalancer.server.port: "8000"
-              traefik.http.routers.mockserver_admin.rule: Host(`dev.mimo.ldelelis.dev`)
+              traefik.http.routers.mockserver_admin.rule: "Host(`dev.{{ lookup('env', 'MIMO_DOMAIN')}}`)"
             env:
               DATABASE_URL: "{{ lookup('env', 'MIMO_DATABASE_URL')}}"
               IS_ADMIN_API: "true"
@@ -50,8 +50,7 @@
               traefik.enable: "true"
               traefik.frontend.passHostHeaders: "true"
               traefik.http.services.mockserver_mocks.loadbalancer.server.port: "8000"
-              traefik.http.routers.mockserver_mocks.rule: HostRegexp(`{org:[a-zA-Z0-9]+}.{proj:[a-zA-Z]+}.dev.mimo.ldelelis.dev`)
-
+              traefik.http.routers.mockserver_mocks.rule: "HostRegexp(`{org:[a-zA-Z0-9]+}.{proj:[a-zA-Z]+}.dev.{{lookup('env', 'MIMO_DOMAIN')}}`)"
             env:
               DATABASE_URL: "{{ lookup('env', 'MIMO_DATABASE_URL')}}"
               IS_ADMIN_API: "true"
@@ -96,7 +95,7 @@
             labels:
               traefik.enable: "true"
               traefik.frontend.passHostHeaders: "true"
-              traefik.http.routers.nginx.rule: Host(`dev.mimo.ldelelis.dev`) && PathPrefix(`/static`)
+              traefik.http.routers.nginx.rule: "Host(`dev.{{lookup('env', 'MIMO_DOMAIN')}}`) && PathPrefix(`/static`)"
             command: "nginx -g 'daemon off;'"
         ansible_python_interpreter: /usr/bin/python3
     - role: Letsencrypt
